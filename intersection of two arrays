@@ -1,0 +1,26 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+   bool lookup[1001] = {false};
+    for (int i = 0; i < nums1Size; i++) {
+        lookup[nums1[i]] = true;
+    }
+    
+    // Allocate maximum possible size for the result array
+    int maxResultSize = nums1Size < nums2Size ? nums1Size : nums2Size;
+    int* result = (int*)malloc(maxResultSize * sizeof(int));
+    int count = 0;
+    
+    // Check elements in nums2 against our lookup tracker
+    for (int i = 0; i < nums2Size; i++) {
+        int val = nums2[i];
+        if (lookup[val]) {
+            result[count++] = val;
+            lookup[val] = false; // Prevent duplicates in the result
+        }
+    }
+    
+    *returnSize = count;
+    return result;   
+}
