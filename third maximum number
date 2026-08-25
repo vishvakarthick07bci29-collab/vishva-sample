@@ -1,0 +1,34 @@
+int thirdMax(int* nums, int numsSize) {
+    // Use long long to handle INT_MIN initialization without conflicts
+    long long first = LLONG_MIN;
+    long long second = LLONG_MIN;
+    long long third = LLONG_MIN;
+
+    for (int i = 0; i < numsSize; i++) {
+        long long current = nums[i];
+
+        // Skip duplicates to ensure distinct maximums
+        if (current == first || current == second || current == third) {
+            continue;
+        }
+
+        // Update the ranking based on the current number
+        if (current > first) {
+            third = second;
+            second = first;
+            first = current;
+        } else if (current > second) {
+            third = second;
+            second = current;
+        } else if (current > third) {
+            third = current;
+        }
+    }
+
+    // If a third distinct maximum doesn't exist, return the absolute maximum
+    if (third == LLONG_MIN) {
+        return (int)first;
+    }
+
+    return (int)third;
+}
